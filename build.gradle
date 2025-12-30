@@ -53,9 +53,6 @@ compileJava {
     // You must use 8 if any libraries you use need Java 8, which now includes libGDX.
     sourceCompatibility = 8
     targetCompatibility = 8
-    if (JavaVersion.current().isJava9Compatible()) {
-        options.release.set(8)
-    }
 }
 
 compileTestJava {
@@ -64,9 +61,6 @@ compileTestJava {
 	// including how NIO Buffers behave (which broke compatibility in Java 9).
     sourceCompatibility = 8
     targetCompatibility = 8
-    if (JavaVersion.current().isJava9Compatible()) {
-        options.release.set(8)
-    }
 }
 
 // JavaDocs will be published inside the docs/ folder, which you can easily put on GitHub Pages
@@ -114,4 +108,6 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 }
