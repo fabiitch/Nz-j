@@ -1,17 +1,22 @@
 package com.nz.nzj.app;
 
 import com.sun.management.OperatingSystemMXBean;
+import lombok.experimental.UtilityClass;
 
 import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.util.concurrent.Executors;
 
+@UtilityClass
 public class MemoryUtils {
+
     public static String getMemoryLog() {
         Runtime rt = Runtime.getRuntime();
 
         long heapTotal = rt.totalMemory();
-        long heapFree  = rt.freeMemory();
-        long heapUsed  = heapTotal - heapFree;
-        long heapMax   = rt.maxMemory();
+        long heapFree = rt.freeMemory();
+        long heapUsed = heapTotal - heapFree;
+        long heapMax = rt.maxMemory();
 
         double nativeUsed = -1;
 
