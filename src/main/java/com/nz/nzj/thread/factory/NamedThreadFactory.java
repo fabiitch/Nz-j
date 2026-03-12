@@ -1,4 +1,4 @@
-package com.nz.nzj.app.thread;
+package com.nz.nzj.thread.factory;
 
 import lombok.AllArgsConstructor;
 

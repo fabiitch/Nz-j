@@ -18,7 +18,7 @@ import java.util.Arrays;
  *
  * @param <T> event type
  */
-public final class EventBus<T> extends AbstractEventBus<T> {
+public class EventBus<T> extends AbstractEventBus<T> {
 
     private Listener<T>[] listeners;
     private int size;

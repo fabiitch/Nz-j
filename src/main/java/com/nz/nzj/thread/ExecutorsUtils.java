@@ -1,7 +1,7 @@
-package com.nz.nzj.app;
+package com.nz.nzj.thread;
 
-import com.nz.nzj.app.thread.NamedIncThreadFactory;
-import com.nz.nzj.app.thread.NamedThreadFactory;
+import com.nz.nzj.thread.factory.NamedIncThreadFactory;
+import com.nz.nzj.thread.factory.NamedThreadFactory;
 import lombok.experimental.UtilityClass;
 
 import java.util.concurrent.ExecutorService;
