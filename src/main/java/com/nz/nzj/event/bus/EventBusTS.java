@@ -18,7 +18,7 @@ import java.util.Arrays;
  *
  * @param <T> event type
  */
-public final class EventBusTS<T> extends AbstractEventBus<T> {
+public  class EventBusTS<T> extends AbstractEventBus<T> {
 
     private volatile Listener<T>[] listeners;
 
