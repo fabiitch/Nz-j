@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadFactory;
 public class NamedThreadFactory implements ThreadFactory {
 
     private final String name;
+    private final int priority;
     private final boolean daemon;
 
     @Override
