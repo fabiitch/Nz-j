@@ -16,6 +16,9 @@ public class ExecutorsUtils {
     }
 
     public static ExecutorService newSingle(String name, int priority, boolean daemon) {
+        validateThreadName(name);
+        validatePriority(priority);
+
         return new ThreadPoolExecutor(
                 1,
                 1,
@@ -24,6 +27,29 @@ public class ExecutorsUtils {
                 new LinkedBlockingQueue<>(),
                 threadFactory(name, priority, daemon),
                 DEFAULT_REJECTION_POLICY
+        );
+    }
+
+    public static ExecutorService newSingle(
+            String name,
+            int queueCapacity,
+            RejectedExecutionHandler rejectedExecutionHandler,
+            int priority,
+            boolean daemon
+    ) {
+        validateThreadName(name);
+        validateQueueCapacity(queueCapacity);
+        validatePriority(priority);
+        validateRejectedExecutionHandler(rejectedExecutionHandler);
+
+        return new ThreadPoolExecutor(
+                1,
+                1,
+                0L,
+                TimeUnit.MILLISECONDS,
+                new ArrayBlockingQueue<>(queueCapacity),
+                threadFactory(name, priority, daemon),
+                rejectedExecutionHandler
         );
     }
 
@@ -36,8 +62,22 @@ public class ExecutorsUtils {
     }
 
     public static ExecutorService newFixed(int nThreads, String name, int queueCapacity, int priority, boolean daemon) {
+        return newFixed(nThreads, name, queueCapacity, DEFAULT_REJECTION_POLICY, priority, daemon);
+    }
+
+    public static ExecutorService newFixed(
+            int nThreads,
+            String name,
+            int queueCapacity,
+            RejectedExecutionHandler rejectedExecutionHandler,
+            int priority,
+            boolean daemon
+    ) {
         validateThreadCount(nThreads);
+        validateThreadName(name);
         validateQueueCapacity(queueCapacity);
+        validatePriority(priority);
+        validateRejectedExecutionHandler(rejectedExecutionHandler);
 
         return new ThreadPoolExecutor(
                 nThreads,
@@ -46,7 +86,7 @@ public class ExecutorsUtils {
                 TimeUnit.MILLISECONDS,
                 new ArrayBlockingQueue<>(queueCapacity),
                 threadFactory(name, priority, daemon),
-                DEFAULT_REJECTION_POLICY
+                rejectedExecutionHandler
         );
     }
 
@@ -55,7 +95,9 @@ public class ExecutorsUtils {
     }
 
     public static ExecutorService newCached(String name, int maxThreads, long keepAliveSeconds, int priority, boolean daemon) {
+        validateThreadName(name);
         validateThreadCount(maxThreads);
+        validatePriority(priority);
 
         return new ThreadPoolExecutor(
                 0,
@@ -73,6 +115,9 @@ public class ExecutorsUtils {
     }
 
     public static ScheduledExecutorService newScheduledSingle(String name, int priority, boolean daemon) {
+        validateThreadName(name);
+        validatePriority(priority);
+
         return new ScheduledThreadPoolExecutor(
                 1,
                 threadFactory(name, priority, daemon),
@@ -86,6 +131,8 @@ public class ExecutorsUtils {
 
     public static ScheduledExecutorService newScheduled(int nThreads, String name, int priority, boolean daemon) {
         validateThreadCount(nThreads);
+        validateThreadName(name);
+        validatePriority(priority);
 
         return new ScheduledThreadPoolExecutor(
                 nThreads,
@@ -138,6 +185,12 @@ public class ExecutorsUtils {
             throw new IllegalArgumentException(
                     "priority must be between " + Thread.MIN_PRIORITY + " and " + Thread.MAX_PRIORITY
             );
+        }
+    }
+
+    private static void validateRejectedExecutionHandler(RejectedExecutionHandler rejectedExecutionHandler) {
+        if (rejectedExecutionHandler == null) {
+            throw new IllegalArgumentException("rejectedExecutionHandler must not be null");
         }
     }
 }
