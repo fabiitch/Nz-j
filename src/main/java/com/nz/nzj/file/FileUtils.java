@@ -21,6 +21,10 @@ public class FileUtils {
         return resolve.toFile();
     }
 
+    public static boolean hasExtension(String fileName){
+        return !getExtension(fileName).isEmpty();
+    }
+
     public static String getExtension(String fileName) {
         int dotIndex = fileName.lastIndexOf('.');
         if (dotIndex < 0) {
