@@ -155,8 +155,11 @@ public class ExecutorsUtils {
             Thread thread = new Thread(runnable, prefix + "-" + counter.getAndIncrement());
             thread.setDaemon(daemon);
             thread.setPriority(priority);
-            thread.setUncaughtExceptionHandler((t, e) ->
-                    System.err.println("[ExecutorsUtils] Uncaught exception in thread " + t.getName() + ": " + e)
+            thread.setUncaughtExceptionHandler((t, e) -> {
+                System.err.println("[ExecutorsUtils] Uncaught exception in thread " + t.getName() + ": " + e);
+                e.printStackTrace(System.err);
+            }
+
             );
             return thread;
         };
