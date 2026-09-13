@@ -1,0 +1,34 @@
+package com.fabiitch.nzj.event.bus;
+
+import com.fabiitch.nzj.event.IEventBus;
+import com.fabiitch.nzj.event.Listener;
+
+/**
+ * Shared base for event bus implementations.
+ * <p>
+ * This class contains the common fire(...) logic.
+ * Concrete implementations only need to provide a listener snapshot.
+ *
+ * @param <T> event type
+ */
+public abstract class AbstractEventBus<T> implements IEventBus<T> {
+
+    @Override
+    public void fire(T event) {
+        Listener<T>[] snapshot = snapshot();
+
+        for (int i = 0; i < snapshot.length; i++) {
+            snapshot[i].onEvent(event);
+        }
+    }
+
+    /**
+     * Returns a stable listener array used during dispatch.
+     * <p>
+     * For the fast non-thread-safe version, this may be the internal array
+     * trimmed to current size.
+     * <p>
+     * For the thread-safe version, this is usually the current immutable snapshot.
+     */
+    protected abstract Listener<T>[] snapshot();
+}
